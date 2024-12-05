@@ -1,0 +1,338 @@
+<!doctype html>
+<html>
+
+<style>
+
+  body {
+    font-family:Helvetica;
+  }
+
+  img {
+    width: 100px;
+  }
+
+  #notes {
+    width: 80%;
+  }
+
+  #instrument {
+    accent-color:orange;
+
+  }
+  #instrumentName{
+    display:inline;
+  }
+
+  #generateButton {
+
+    color:#0c59cc;
+    border-radius: 4px;
+    border-color: #0c59cc;
+
+  }
+  #bpmSlider{
+    display:block;
+  }
+
+  #outer{
+
+    padding:10px;
+  }
+
+  .blue {
+    color:#0c59cc;
+  }
+
+  .noteButton{
+    width:40px;
+  }
+
+</style>
+
+<body>
+<div id="outer">
+<br>
+<input id="notes" value="A/4 B/4 C/4 D/4"></input>
+<button id="generateButton" onclick="generateSong()">Generate</button>
+<input id="bpmSlider" type="range" max="220" step="1.0" value="140" onchange="updateBPM()"></input>
+<div style="display:inline" id="bpm">140</div><div style="display:inline"> bpm</div>
+<h1 id="active_note"></h1>
+<b style="font-family:Arial">Easy Music Notation -</b>
+<br>
+Type notes into the [input box] above and press the <b style="color:#0c59cc">Generate</b> button to hear your song<b> ~ </b>
+<br>
+Supports notes [A,B,C,D,E,F,G] of varying time durations. Character S stands for a pause in music.
+<br>
+<hr>
+<b style="color:grey;font-family:Arial">examples:</b>
+<br>
+<b>HOTRS:</b>E/4 A/2 B/4 C/2 E/4 D/2 A/4 A/2 A/4 A./2 A./4 G/2 E/4 E A./4 A./2 A./4 G/2 E/4 D/2 A/4 C/2 C/4 A/2 A/4 C/4 B/4 .G/4 A3/2<br>
+<b>Met You on 5th Street:</b> A/4 B/4 D/4 E/4 G3/4 A/4 B/4 D/4 E/4 A3/4 A/4 B/4 D/4 E/4 G3/4 A/4 B/4 D/4 E/4 E3/4<br>
+<br>
+<input id="durationSlider" type="range" max="0.75" step="0.25" value="0.25" onchange="updateDurations()"></input>
+<br>
+<button class="noteButton" onclick="midA()" id="midA">A/4</button>
+<button class="noteButton" onclick="midB()" id="midB">B/4</button>
+<button class="noteButton" onclick="midC()" id="midC">C/4</button>
+<button class="noteButton" onclick="midD()" id="midD">D/4</button>
+<button class="noteButton" onclick="midE()" id="midE">E/4</button>
+<button class="noteButton" onclick="midF()" id="midF">F/4</button>
+<button class="noteButton" onclick="midG()" id="midG">G/4</button>
+<br><br>
+<hr>
+<div id="browser_msg" style="color:orange"></div>
+<br>
+<b>Easy Music Notation Explained:</b> 4/4 time used. A full note is represented by a single character such as A |
+This as a quarter note would be A/4 | To shift octaves add a . to the left or right of the letter | .A/4 would be an A note shifted
+one octave lower with a duration of one beat.
+</div>
+</body>
+
+<script>
+
+instrument = "guitar2";
+bpm = document.getElementById("bpmSlider").value;
+
+notes = ["A","B","C","D","E","F","G"];
+
+function updateBPM(){
+  document.getElementById("bpm").innerHTML = document.getElementById("bpmSlider").value;
+  bpm = document.getElementById("bpmSlider").value;
+}
+
+function updateInstrument(){
+
+    slide_value = document.getElementById("instrument").value;
+
+
+    if (slide_value == 0) {
+      instrument = "guitar2";
+    } else if(slide_value == 0.25) {
+      instrument = "drum";
+    } else if(slide_value == 0.5){
+      instrument = "tone";
+    }
+
+    document.getElementById("instrumentName").innerHTML = instrument;
+
+}
+
+function updateDurations(){
+
+  slide_value = document.getElementById("durationSlider").value;
+  temp = "";
+
+  if (slide_value == 0){
+    temp = "";
+  }
+  else if (slide_value == 0.25){
+    temp="/4";
+  } else if  (slide_value == 0.5){
+    temp = "/2"
+  } else  if (slide_value == 0.75){
+    temp = "/8"
+  }
+
+  document.getElementById("midA").innerHTML = "A"+temp;
+  document.getElementById("midB").innerHTML = "B"+temp;
+  document.getElementById("midC").innerHTML = "C"+temp;
+  document.getElementById("midD").innerHTML = "D"+temp;
+  document.getElementById("midE").innerHTML = "E"+temp;
+  document.getElementById("midF").innerHTML = "F"+temp;
+  document.getElementById("midG").innerHTML = "G"+temp;
+}
+
+function midA(){
+  if (document.getElementById("notes").value == ""){
+    document.getElementById("notes").value =  document.getElementById("notes").value + document.getElementById("midA").innerHTML;
+  } else{
+  document.getElementById("notes").value =  document.getElementById("notes").value + " " +document.getElementById("midA").innerHTML;
+}
+}
+
+function midB(){
+  if (document.getElementById("notes").value == ""){
+    document.getElementById("notes").value =  document.getElementById("notes").value + document.getElementById("midB").innerHTML;
+  } else{
+  document.getElementById("notes").value =  document.getElementById("notes").value + " " +document.getElementById("midB").innerHTML;
+}
+}
+
+function midC(){
+  if (document.getElementById("notes").value == ""){
+    document.getElementById("notes").value =  document.getElementById("notes").value + document.getElementById("midC").innerHTML;
+  } else{
+  document.getElementById("notes").value =  document.getElementById("notes").value + " " +document.getElementById("midC").innerHTML;
+}
+}
+
+function midD(){
+  if (document.getElementById("notes").value == ""){
+    document.getElementById("notes").value =  document.getElementById("notes").value + document.getElementById("midD").innerHTML;
+  } else{
+  document.getElementById("notes").value =  document.getElementById("notes").value + " " +document.getElementById("midD").innerHTML;
+}
+}
+
+function midE(){
+  if (document.getElementById("notes").value == ""){
+    document.getElementById("notes").value =  document.getElementById("notes").value + document.getElementById("midE").innerHTML;
+  } else{
+  document.getElementById("notes").value =  document.getElementById("notes").value + " " +document.getElementById("midE").innerHTML;
+}
+}
+
+function midF(){
+  if (document.getElementById("notes").value == ""){
+    document.getElementById("notes").value =  document.getElementById("notes").value + document.getElementById("midF").innerHTML;
+  } else{
+  document.getElementById("notes").value =  document.getElementById("notes").value + " " +document.getElementById("midF").innerHTML;
+}
+}
+
+function midG(){
+  if (document.getElementById("notes").value == ""){
+    document.getElementById("notes").value =  document.getElementById("notes").value + document.getElementById("midG").innerHTML;
+  } else{
+  document.getElementById("notes").value =  document.getElementById("notes").value + " " +document.getElementById("midG").innerHTML;
+}
+}
+
+function generateSong(){
+
+  a = document.getElementById("notes").value;
+  a = a.replace("  ", " ");
+
+  note_data = a.split(" ");
+  note_info = [];
+
+  for ( var i = 0; i < note_data.length; i ++ ) {
+
+    if (note_data[i].length==1){
+
+      note_info.push([note_data[i], 1.0, "mid"]);
+    }  else if ((note_data[i].includes("")) && (note_data[i].length==2)) {
+
+      if (note_data[i][0] == "."){
+        note_info.push([note_data[i][1], 1.0, "low"]);
+      } else if (note_data[i][1] == "."){
+        note_info.push([note_data[i][0], 1.0, "high"]);
+      } else if ("123456789".includes(note_data[i][1])){
+        note_info.push([note_data[i][0], note_data[i][1], "mid"]);
+      }
+
+    }
+
+    else {
+
+    temp = note_data[i].split("/");
+    temp[1] = 1.0 / Number(temp[1]);
+    temp[2] = "mid";
+
+    if ((note_data[i][note_data[i].length-2] == "/") && (note_data[i].length > 3)){
+
+      temp[0] = note_data[i][0];
+      temp[1] = note_data[i][note_data[i].length-3] / note_data[i][note_data[i].length-1] ;
+
+    }
+
+    if (note_data[i].includes(".")){
+
+      if (temp[0][0] == "."){
+        temp[2] = "low";
+        temp[0] = note_data[i][1];
+        temp[1] = 1 / note_data[i][note_data[i].length-1];
+
+      } else{
+
+        temp[2] = "high";
+        temp[0] = note_data[i][0];
+        temp[1] = 1 / note_data[i][note_data[i].length-1];
+
+      }
+
+    }
+
+    if (note_data[i].includes("S")){
+      temp[0] = "S";
+      temp[1] = 0.25;
+      temp[2] = "mid";
+    }
+
+    note_info.push(temp);
+
+  }
+
+  }
+
+  sounds = [];
+
+  c = 0;
+  function nextSong(){
+
+    c = c + 1;
+
+    if (c < sounds.length){
+    sounds[c].play();
+
+  } else{
+
+    c = 0;
+  }
+
+  }
+
+  notes = [".E",".F",".F#",".G",".G#","A","A#","B","C","C#","D","D#","E","F","F#",
+  "G","G#","A.","A#.","B.","C.","C#.","D.","D#.","E.","F.","F#.","G.","G#."]
+
+  mid = notes.length/2;
+
+  function playSound(){
+
+    sounds[c].play();
+    c = c + 1;
+    if (c == sounds.length -1){
+      c = 1;
+    }
+
+  }
+
+  for (var i = 0; i < note_info.length; i++){
+
+    note = note_info[i][0];
+    duration = note_info[i][1];
+
+    file = "";
+
+    if (duration >= 1 || note =="S"){
+      file = "./sounds/" + instrument +"/" + note_info[i][2] + note_info[i][0] + ".mp3";
+    } else if (duration >= 0.5) {
+      file = "./sounds/" + instrument +"/" + note_info[i][2] + note_info[i][0] + "half.mp3";
+      duration = duration * 2
+    } else{
+      file = "./sounds/" + instrument +"/" + note_info[i][2] + note_info[i][0] + "half.mp3";
+      duration = duration * 2
+
+    }
+
+    sound = new Audio(file);
+    sound.playbackRate = 1/duration /2 * bpm/60;
+    sound.onended = nextSong;
+
+    sounds[i] = sound;
+
+  }
+
+  sounds[0].play();
+
+}
+
+browser_data = navigator.userAgent.split(" ");
+browser_check = browser_data[browser_data.length-1];
+
+if  (browser_check.includes("Saf")){
+  document.getElementById("browser_msg").innerHTML = "<b>For this browser there may have some unresolved timing issues. <br>If music is delayed try a different browser. <br>Thanks.</b>"
+}
+
+</script>
+</html>
